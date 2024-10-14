@@ -1,0 +1,171 @@
+---
+title: 'Data607: Working with XML and JSON in R'
+author: "Anthony Josue Roman"
+date: "2024-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r include=FALSE}
+require(readr)
+require(RCurl)
+require(stringr)
+require(dplyr)
+require(tidyr)
+require(tidyverse)
+require(ggplot2)
+require(knitr)
+require(kableExtra)
+require(xml2)
+require(rvest)
+require(jsonlite)
+require(bslib)
+```
+
+```{r include=FALSE}
+library(bslib)
+library(readr)
+library(RCurl)
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(xml2)
+library(rvest)
+library(jsonlite)
+```
+
+This assignment will use the following packages:
+
+```{r eval=FALSE}
+library(bslib)
+library(readr)
+library(RCurl)
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(xml2)
+library(rvest)
+library(jsonlite)
+```
+
+## Overview
+
+The purpose of this assignment is to work with HTML, XML, and JSON files in R. I have included 4 books where 1 book has multiple authors and have included more details such as the year they were released, copies sold, pages and the genres. The following source files will be available on my [GitHub Page](https://github.com/spacerome/Data607_Assignment_5).
+
+### HTML
+
+With this code block, `htmlload` will get the raw html file from the GitHub Page.
+
+```{r HTMLLoad}
+htmlload <- read_html(url("https://raw.githubusercontent.com/spacerome/Data607_Assignment_5/refs/heads/main/books.html"))
+```
+
+This code block will Extract the table and store it as `bookstable`:
+
+```{r HTMLTable}
+bookstable <- html_table(htmlload, fill=TRUE)[[1]]
+```
+
+Lastly, the codeblock below will display the table using kable.
+
+```{r HTMLKabble}
+kable(bookstable, format = "markdown", col.names = c("Title", "Author", "Release Year", "Genres", "Pages", "Copies Sold Worldwide"))
+```
+
+### XML
+
+With this code block, `xmlload` will get the raw xml file from the GitHub Page.
+
+```{r XMLload}
+xmlload <- read_xml(url("https://raw.githubusercontent.com/spacerome/Data607_Assignment_5/refs/heads/main/books.xml"))
+```
+
+This codeblock will utilize `xml_structure()` to get the following nodes from `xmlload`:
+
+```{r XMLStructure}
+xml_structure(xmlload)
+```
+
+We will then store the nodes into a dataframe `booksdf`:
+
+```{r XMLNodes}
+titles <- xml_text(xml_find_all(xmlload, "//title"))
+authors <- xml_text(xml_find_all(xmlload, "//author"))
+release_years <- xml_text(xml_find_all(xmlload, "//release_year"))
+genres <- xml_text(xml_find_all(xmlload, "//genres"))
+pages <- xml_text(xml_find_all(xmlload, "//pages"))
+copies_sold <- xml_text(xml_find_all(xmlload, "//copies_sold_worldwide"))
+
+books_df <- data.frame(
+  Title = titles,
+  Author = authors,
+  Release_Year = release_years,
+  Genres = genres,
+  Pages = pages,
+  Copies_Sold_Worldwide = copies_sold,
+  stringsAsFactors = FALSE
+)
+```
+
+Lastly, it will be displayed as a table using kable:
+
+```{r xmlkable}
+kable(books_df, format = "markdown", col.names = c("Title", "Author", "Release Year", "Genres", "Pages", "Copies Sold Worldwide"))
+```
+
+### JSON
+
+With this code block, `jsonload` will get the raw json file from the GitHub Page.
+
+```{r JSONload}
+jsonload <- fromJSON(url("https://raw.githubusercontent.com/spacerome/Data607_Assignment_5/refs/heads/main/books.json"))
+```
+
+After loading the json frame we will store it in `books_json` as a data frame
+
+```{r dataframeJson}
+books_json <- as.data.frame(jsonload$books)
+```
+
+Since there were instances where the Genre and Authors would have an extra space between the commas, I used the collaps function below to fix this issue.
+
+```{r fixjsondf}
+books_json$author <- sapply(books_json$author, function(x) paste(x, collapse = ", "))
+
+books_json$genres <- sapply(books_json$genres, function(x) paste(x, collapse = ", "))
+```
+
+Lastly, I displayed the json table using kable.
+
+```{r jsonkable}
+kable(books_json, format = "markdown", col.names = c("Title", "Author", "Release Year", "Genres", "Pages", "Copies Sold Worldwide"))
+```
+
+### Check if Dataframes are identical
+
+The following codeblock will check if they are identical:
+
+```{r identical}
+is_html_xml_identical <- identical(bookstable, books_df)
+is_html_json_identical <- identical(books_df, books_json)
+is_xml_json_identical <- identical(books_df, books_json)
+
+is_html_json_identical
+is_html_xml_identical
+is_xml_json_identical
+```
+### Conclusion
+
+Even though the tables *look* similar, these are not identical as there are formatting differences between HTML, XML and JSON. JSON had some instances where it was stored as lists and I had to collapse them into strings to make the tables look similar. One way to make the data frames identical would be to use the `trimws()` function and the `as.character()` function to convert all columns to character type to possibly make them identical, and using the `all.equal()` funcition may make the data frames identical.
