@@ -1,0 +1,52 @@
+{
+    "books": [
+        {
+            "title": "The Rising of the Shield Hero Volume 12",
+            "author": "Aneko Yusagi",
+            "release_year": 2018,
+            "genres": [
+                "Fantasy",
+                "Adventure",
+                "Isekai"
+            ],
+            "pages": 360,
+            "copies_sold_worldwide": "3 million"
+        },
+        {
+            "title": "The Eminence in Shadow, Vol. 4",
+            "author": "Daisuke Aizawa",
+            "release_year": 2021,
+            "genres": [
+                "Action",
+                "Comedy",
+                "Isekai"
+            ],
+            "pages": 260,
+            "copies_sold_worldwide": "1 million"
+        },
+        {
+            "title": "The Book Thief",
+            "author": "Markus Zusak",
+            "release_year": 2005,
+            "genres": [
+                "Historical Fiction"
+            ],
+            "pages": 584,
+            "copies_sold_worldwide": "16 million"
+        },
+        {
+            "title": "Good Omens",
+            "author": [
+                "Neil Gaiman",
+                "Terry Pratchett"
+            ],
+            "release_year": 1990,
+            "genres": [
+                "Fantasy",
+                "Comedy"
+            ],
+            "pages": 412,
+            "copies_sold_worldwide": "5 million"
+        }
+    ]
+}

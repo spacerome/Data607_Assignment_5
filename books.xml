@@ -1,0 +1,35 @@
+
+<books>
+    <book>
+        <title>The Rising of the Shield Hero Volume 12</title>
+        <author>Aneko Yusagi</author>
+        <release_year>2018</release_year>
+        <genres>Fantasy, Adventure, Isekai</genres>
+        <pages>360</pages>
+        <copies_sold_worldwide>3 million</copies_sold_worldwide>
+    </book>
+    <book>
+        <title>The Eminence in Shadow, Vol. 4</title>
+        <author>Daisuke Aizawa</author>
+        <release_year>2021</release_year>
+        <genres>Action, Comedy, Isekai</genres>
+        <pages>260</pages>
+        <copies_sold_worldwide>1 million</copies_sold_worldwide>
+    </book>
+    <book>
+        <title>The Book Thief</title>
+        <author>Markus Zusak</author>
+        <release_year>2005</release_year>
+        <genres>Historical Fiction</genres>
+        <pages>584</pages>
+        <copies_sold_worldwide>16 million</copies_sold_worldwide>
+    </book>
+    <book>
+        <title>Good Omens</title>
+        <author>Neil Gaiman, Terry Pratchett</author>
+        <release_year>1990</release_year>
+        <genres>Fantasy, Comedy</genres>
+        <pages>412</pages>
+        <copies_sold_worldwide>5 million</copies_sold_worldwide>
+    </book>
+</books>
